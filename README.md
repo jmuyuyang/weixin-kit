@@ -22,15 +22,13 @@ import (
 	"fmt"
 	"log"
 
-	weixin "github.com/chanyipiaomiao/weixin-kit"
+	weixin "github.com/jmuyuyang/weixin-kit"
 )
 
 func main() {
-
-    accessTokenAPI := "https://qyapi.weixin.qq.com/cgi-bin/gettoken"
     corpID := "xxxxxx"
-    appSecret := "xxxxxxxx"
-    sendMessageAPIURL := "https://qyapi.weixin.qq.com/cgi-bin/message/send"
+    corpSecret := "xxxxxxxx"
+	client := weixin.NewClient(corpID,corpSecret)
     
     message := &weixin.Message{
         MsgType: weixin.TEXT, // 目前只支持发送文本消息
@@ -41,18 +39,7 @@ func main() {
             Content: "有报警啦, 主机: xxx 报警内容: xxxx",
         },
     }
-
-    client2 := &weixin.Client{
-        AccessTokenAPI: accessTokenAPI,
-        APIURL:         sendMessageAPIURL,
-        CorpID:         corpID,
-        CorpSecret:     appSecret,
-        Message:        message,
-    }
-    ok, err := client2.SendMessage()
-    if err != nil {
-        log.Fatalln(err)
-    }
-    fmt.Println(ok)
+	
+	client.SendMessage(message)
 }
 ```
